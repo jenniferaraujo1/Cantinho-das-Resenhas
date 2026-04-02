@@ -1,0 +1,170 @@
+:root {
+    --primary-color: #2b392f;
+    --accent-color: #738c5d;
+    --bg-color: #4d5f3d;
+    --white: #ffffff;
+}
+
+/* 1. Configurações Gerais do Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--white);
+}
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4.5rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* 2. Grid de Livros */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: 0.3s;
+}
+
+/* 3. Cards dos Livros */
+.book-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 380px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.book-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    z-index: 5;
+}
+
+.book-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 4. Overlay Interno do Card (Info básica) */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, rgba(43, 57, 47, 0.95));
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.book-card:hover .overlay {
+    opacity: 1;
+}
+
+.overlay h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+.overlay p { margin: 2px 0; font-size: 0.8rem; }
+
+.rating { color: #ffcc00; margin: 5px 0; }
+
+.info-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    background: var(--accent-color);
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+/* 5. EFEITO DE EXPANSÃO (O que você pediu) */
+
+/* Fundo escuro com Blur - Aplica o desfoque apenas no que está atrás */
+#overlay-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px); /* Borra o site lá no fundo */
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease;
+    z-index: 998;
+}
+
+/* Painel de Informações Centralizado */
+.tooltip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7); /* Começa menor */
+    background: var(--white);
+    color: #333;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    width: 550px;
+    max-width: 85vw;
+    z-index: 999; /* Fica acima do blur */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Classes Ativas (via JavaScript) */
+#overlay-screen.active,
+.tooltip.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip.active {
+    transform: translate(-50%, -50%) scale(1); /* Expande para o tamanho real */
+}
+
+/* Estilização interna do resumo expandido */
+.tooltip img {
+    width: 160px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.tooltip h2 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
+    margin: 0 0 15px 0;
+}
+
+.tooltip p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+}
